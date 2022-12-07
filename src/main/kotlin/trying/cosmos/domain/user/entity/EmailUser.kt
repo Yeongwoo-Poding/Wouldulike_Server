@@ -11,6 +11,6 @@ class EmailUser(
 
     val email: String,
 
-    var password: String): User(name = name) {
+    var password: String
 
-}
+): User(name = name)

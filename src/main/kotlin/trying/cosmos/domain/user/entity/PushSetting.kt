@@ -17,6 +17,6 @@ class PushSetting(
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "push_setting_id")
-    val id: Long? = null) {
+    val id: Long? = null
 
-}
+)

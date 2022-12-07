@@ -14,6 +14,6 @@ class SocialUser(
     @Enumerated(EnumType.STRING)
     val socialType: SocialType,
 
-    val identifier: String): User(name = name) {
+    val identifier: String
 
-}
+): User(name = name)
