@@ -10,7 +10,7 @@ import trying.cosmos.domain.user.entity.Session
 @Component
 class TokenProvider(
 
-    config: JwtConfiguration
+    config: JwtConfig
 
 ) {
 
