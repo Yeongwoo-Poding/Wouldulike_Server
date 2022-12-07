@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
 import org.springframework.stereotype.Component
+import trying.cosmos.domain.user.entity.Session
 
 @Component
 class TokenProvider(
@@ -13,11 +14,13 @@ class TokenProvider(
 
 ) {
 
-    val key = Keys.hmacShaKeyFor(config.key.toByteArray())
+    private val AUTHORITY_HEADER = "auth"
+    private val key = Keys.hmacShaKeyFor(config.key.toByteArray())
 
-    fun createAccessToken(sessionId: String): String {
+    fun createAccessToken(session: Session): String {
         return Jwts.builder()
-            .setSubject(sessionId)
+            .setSubject(session.id)
+            .claim(AUTHORITY_HEADER, session.authorityType)
             .signWith(key, SignatureAlgorithm.HS256)
             .compact()
     }
