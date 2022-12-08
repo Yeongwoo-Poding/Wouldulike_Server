@@ -3,23 +3,36 @@ package trying.cosmos.domain.user.controller
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 import trying.cosmos.domain.user.dto.*
+import trying.cosmos.domain.user.entity.AuthorityType.USER
+import trying.cosmos.domain.user.service.SessionService
 import trying.cosmos.domain.user.service.UserService
+import trying.cosmos.global.authentication.AuthorityLimit
+import trying.cosmos.global.authentication.CurrentUser
 
 @RestController
 @RequestMapping("/users")
 class UserController(
 
-    private val userService: UserService
+    private val userService: UserService,
+
+    private val sessionService: SessionService
 
 ) {
 
+    @AuthorityLimit(USER)
     @DeleteMapping("/{userId}/logout")
     fun logout(@PathVariable userId: Long) {
-        TODO("Need ThreadLocal to save current session")
+        val sessionId = CurrentUser.getSessionId() ?: throw RuntimeException("Not Authenticated")
+        if (isCurrentUser(userId)) throw RuntimeException("No Permission")
+        sessionService.delete(sessionId)
     }
 
+    @AuthorityLimit(USER)
     @DeleteMapping("/{userId}")
-    fun withdraw(@PathVariable userId: Long) = userService.withdraw(userId)
+    fun withdraw(@PathVariable userId: Long) {
+        if (isCurrentUser(userId)) throw RuntimeException("No Permission")
+        userService.withdraw(userId)
+    }
 
     @GetMapping("/{userId}")
     fun find(@PathVariable userId: Long): UserFindResponse = userService.find(userId)
@@ -27,25 +40,45 @@ class UserController(
     @GetMapping
     fun findAll(@RequestBody condition: UserSearchCondition, pageable: Pageable): UserListFindResponse = userService.findList(condition, pageable)
 
+    @AuthorityLimit(USER)
     @GetMapping("/me")
-    fun findMe(): UserInfoResponse {
-        TODO("Need ThreadLocal to save current user")
+    fun findMe(): UserInfoResponse = userService.findInfo(CurrentUser.getUserId() ?: throw RuntimeException("Not Authenticated"))
+
+    @AuthorityLimit(USER)
+    @PutMapping("/{userId}/name")
+    fun updateName(@PathVariable userId: Long, @RequestBody request: UserNameRequest) {
+        if (isCurrentUser(userId)) throw RuntimeException("No Permission")
+        userService.updateName(userId, request.name)
     }
 
-    @PutMapping("/{userId}/name")
-    fun updateName(@PathVariable userId: Long, @RequestBody request: UserNameRequest) = userService.updateName(userId, request.name)
-
+    @AuthorityLimit(USER)
     @PutMapping("/{userId}/password")
-    fun updatePassword(@PathVariable userId: Long, @RequestBody request: UserPasswordRequest) = userService.updatePassword(userId, request.password)
+    fun updatePassword(@PathVariable userId: Long, @RequestBody request: UserPasswordRequest) {
+        if (isCurrentUser(userId)) throw RuntimeException("No Permission")
+        userService.updatePassword(userId, request.password)
+    }
 
+    @AuthorityLimit(USER)
     @GetMapping("/{userId}/setting")
-    fun getSetting(@PathVariable userId: Long): UserSettingResponse = userService.findSetting(userId)
+    fun getSetting(@PathVariable userId: Long): UserSettingResponse {
+        if (isCurrentUser(userId)) throw RuntimeException("No Permission")
+        return userService.findSetting(userId)
+    }
 
+    @AuthorityLimit(USER)
     @PutMapping("/{userId}/setting")
-    fun updateSetting(@PathVariable userId: Long, @RequestBody request: UserSettingRequest) = userService.updateSetting(
-        userId,
-        request.enableGlobalNotification,
-        request.enableCourseNotification,
-        request.enableReviewNotification
-    )
+    fun updateSetting(@PathVariable userId: Long, @RequestBody request: UserSettingRequest) {
+        if (isCurrentUser(userId)) throw RuntimeException("No Permission")
+        userService.updateSetting(
+            userId,
+            request.enableGlobalNotification,
+            request.enableCourseNotification,
+            request.enableReviewNotification
+        )
+    }
+
+    private fun isCurrentUser(userId: Long): Boolean {
+        val currentId = CurrentUser.getUserId() ?: return false
+        return currentId == userId
+    }
 }

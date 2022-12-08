@@ -1,9 +1,7 @@
 package trying.cosmos.domain.user.controller
 
 import org.springframework.web.bind.annotation.*
-import trying.cosmos.domain.user.dto.ResetPasswordRequest
-import trying.cosmos.domain.user.dto.UserExistResponse
-import trying.cosmos.domain.user.dto.UserLoginResponse
+import trying.cosmos.domain.user.dto.*
 import trying.cosmos.domain.user.service.EmailAuthenticationService
 
 @RestController
@@ -13,19 +11,6 @@ class EmailAuthenticationController(
     private val authenticationService: EmailAuthenticationService
 
 ) {
-
-    data class EmailJoinRequest(
-        val email: String,
-        val password: String,
-        val name: String,
-        val pushToken: String
-    )
-
-    data class EmailLoginRequest(
-        val email: String,
-        val password: String,
-        val pushToken: String
-    )
 
     @GetMapping("/exist")
     fun isExist(@RequestParam email: String): UserExistResponse = authenticationService.isExist(email)

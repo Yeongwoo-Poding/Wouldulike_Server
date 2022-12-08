@@ -14,20 +14,16 @@ class TokenProvider(
 
 ) {
 
-    private val AUTHORITY_HEADER = "auth"
     private val key = Keys.hmacShaKeyFor(config.key.toByteArray())
 
     fun createAccessToken(session: Session): String {
         return Jwts.builder()
             .setSubject(session.id)
-            .claim(AUTHORITY_HEADER, session.authorityType)
             .signWith(key, SignatureAlgorithm.HS256)
             .compact()
     }
 
-    fun getSubject(token: String): String? {
-        return parseClaims(token)?.subject
-    }
+    fun getSubject(token: String): String? = parseClaims(token)?.subject
 
     private fun parseClaims(token: String): Claims? {
         return Jwts.parserBuilder()

@@ -1,7 +1,9 @@
 package trying.cosmos.domain.user.entity
 
-enum class AuthorityType {
+enum class AuthorityType(
 
-    USER, ADMIN
+    val level: Int
 
+) {
+    USER(1), ADMIN(2)
 }
