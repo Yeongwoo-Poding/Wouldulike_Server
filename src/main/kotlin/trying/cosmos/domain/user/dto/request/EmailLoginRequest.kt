@@ -1,4 +1,4 @@
-package trying.cosmos.domain.user.dto
+package trying.cosmos.domain.user.dto.request
 
 data class EmailLoginRequest(
     val email: String,

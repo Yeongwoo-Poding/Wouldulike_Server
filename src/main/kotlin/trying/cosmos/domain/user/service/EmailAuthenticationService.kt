@@ -4,8 +4,8 @@ import org.mindrot.jbcrypt.BCrypt
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import trying.cosmos.domain.certification.repository.CertificationRepository
-import trying.cosmos.domain.user.dto.UserExistResponse
-import trying.cosmos.domain.user.dto.UserLoginResponse
+import trying.cosmos.domain.user.dto.response.UserExistResponse
+import trying.cosmos.domain.user.dto.response.UserLoginResponse
 import trying.cosmos.domain.user.entity.EmailUser
 import trying.cosmos.domain.user.repository.UserRepository
 import trying.cosmos.global.extension.generateRandomString

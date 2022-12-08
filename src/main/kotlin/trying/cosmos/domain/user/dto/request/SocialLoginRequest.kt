@@ -1,4 +1,4 @@
-package trying.cosmos.domain.user.dto
+package trying.cosmos.domain.user.dto.request
 
 import trying.cosmos.domain.user.entity.SocialType
 

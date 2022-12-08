@@ -2,6 +2,11 @@ package trying.cosmos.domain.user.controller
 
 import org.springframework.web.bind.annotation.*
 import trying.cosmos.domain.user.dto.*
+import trying.cosmos.domain.user.dto.request.EmailJoinRequest
+import trying.cosmos.domain.user.dto.request.EmailLoginRequest
+import trying.cosmos.domain.user.dto.request.ResetPasswordRequest
+import trying.cosmos.domain.user.dto.response.UserExistResponse
+import trying.cosmos.domain.user.dto.response.UserLoginResponse
 import trying.cosmos.domain.user.service.EmailAuthenticationService
 
 @RestController

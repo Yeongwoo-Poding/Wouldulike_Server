@@ -4,7 +4,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
-import trying.cosmos.domain.user.dto.UserSearchCondition
+import trying.cosmos.domain.user.dto.request.UserSearchCondition
 import trying.cosmos.domain.user.entity.EmailUser
 import trying.cosmos.domain.user.entity.SocialUser
 import trying.cosmos.domain.user.entity.User

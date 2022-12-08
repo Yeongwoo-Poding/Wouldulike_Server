@@ -2,7 +2,7 @@ package trying.cosmos.domain.user.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import trying.cosmos.domain.user.dto.UserLoginResponse
+import trying.cosmos.domain.user.dto.response.UserLoginResponse
 import trying.cosmos.domain.user.entity.SocialType
 import trying.cosmos.domain.user.entity.SocialUser
 import trying.cosmos.domain.user.repository.UserRepository

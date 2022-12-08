@@ -1,4 +1,4 @@
-package trying.cosmos.domain.user.dto
+package trying.cosmos.domain.user.dto.response
 
 import com.fasterxml.jackson.annotation.JsonInclude
 
