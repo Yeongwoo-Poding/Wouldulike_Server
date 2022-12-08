@@ -25,4 +25,8 @@ abstract class User(
     @Column(name = "user_id")
     val id: Long? = null
 
-): TimeEntity()
+): TimeEntity() {
+
+    fun getNullSafeId(): Long = this.id ?: throw RuntimeException("User id is null")
+
+}

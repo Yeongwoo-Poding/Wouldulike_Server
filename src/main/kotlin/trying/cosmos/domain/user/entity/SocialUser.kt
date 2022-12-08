@@ -1,9 +1,6 @@
 package trying.cosmos.domain.user.entity
 
-import javax.persistence.DiscriminatorValue
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
+import javax.persistence.*
 
 @Entity
 @DiscriminatorValue("social")
@@ -14,6 +11,7 @@ class SocialUser(
     @Enumerated(EnumType.STRING)
     val socialType: SocialType,
 
+    @Column(unique = true)
     val identifier: String
 
 ): User(name = name)

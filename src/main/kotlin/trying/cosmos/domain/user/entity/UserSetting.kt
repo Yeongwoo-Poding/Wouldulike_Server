@@ -3,7 +3,7 @@ package trying.cosmos.domain.user.entity
 import javax.persistence.*
 
 @Entity
-class PushSetting(
+class UserSetting(
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -16,7 +16,7 @@ class PushSetting(
     var enableReviewNotification: Boolean = true,
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "push_setting_id")
+    @Column(name = "user_setting_id")
     val id: Long? = null
 
 )

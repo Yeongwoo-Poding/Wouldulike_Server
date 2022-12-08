@@ -4,4 +4,7 @@ import org.springframework.data.repository.CrudRepository
 import trying.cosmos.domain.user.entity.Session
 
 interface SessionRepository: CrudRepository<Session, String> {
+
+    fun deleteAllByUserId(userId: Long)
+
 }
