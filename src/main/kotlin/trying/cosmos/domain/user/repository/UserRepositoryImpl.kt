@@ -17,7 +17,7 @@ class UserRepositoryImpl(
             )
             .fetchOne()
 
-        return user == null
+        return user != null
     }
 
     override fun existsByIdentifier(identifier: String): Boolean {
@@ -27,6 +27,6 @@ class UserRepositoryImpl(
             )
             .fetchOne()
 
-        return user == null
+        return user != null
     }
 }

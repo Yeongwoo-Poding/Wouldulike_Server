@@ -6,6 +6,8 @@ import trying.cosmos.domain.certification.configuration.CertificationConfig
 import trying.cosmos.domain.certification.entity.Certification
 import trying.cosmos.domain.certification.repository.CertificationRepository
 import trying.cosmos.domain.user.repository.UserRepository
+import trying.cosmos.global.email.EmailSender
+import trying.cosmos.global.email.EmailTemplate
 import trying.cosmos.global.extension.generateRandomString
 
 @Service
@@ -16,7 +18,9 @@ class CertificationService(
 
     private val certificationRepository: CertificationRepository,
 
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+
+    private val emailSender: EmailSender
 
 ) {
 
@@ -26,7 +30,13 @@ class CertificationService(
         val certification: Certification =
             certificationRepository.findByEmail(email)?.replace(generateRandomString(config.codeLength), config.expiredTime)
             ?: certificationRepository.save(Certification(generateRandomString(config.codeLength), email, config.expiredTime))
-        TODO("EmailUtils 제작")
+        emailSender.send(
+            template = EmailTemplate.CERTIFICATION_CODE,
+            to = email,
+            model = mapOf(
+                "code" to certification.code
+            )
+        )
     }
 
     @Transactional

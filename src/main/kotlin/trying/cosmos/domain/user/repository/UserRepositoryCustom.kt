@@ -4,5 +4,5 @@ interface UserRepositoryCustom {
 
     fun existsByEmail(email: String): Boolean
 
-    fun existsByIdentifier(email: String): Boolean
+    fun existsByIdentifier(identifier: String): Boolean
 }

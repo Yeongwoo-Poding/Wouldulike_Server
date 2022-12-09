@@ -8,6 +8,8 @@ import trying.cosmos.domain.user.dto.response.UserExistResponse
 import trying.cosmos.domain.user.dto.response.UserLoginResponse
 import trying.cosmos.domain.user.entity.EmailUser
 import trying.cosmos.domain.user.repository.UserRepository
+import trying.cosmos.global.email.EmailSender
+import trying.cosmos.global.email.EmailTemplate
 import trying.cosmos.global.extension.generateRandomString
 
 @Service
@@ -18,7 +20,9 @@ class EmailAuthenticationService(
 
     private val certificationRepository: CertificationRepository,
 
-    private val sessionService: SessionService
+    private val sessionService: SessionService,
+
+    private val emailSender: EmailSender
 
 ) {
 
@@ -45,6 +49,12 @@ class EmailAuthenticationService(
         val user = userRepository.findByEmail(email) ?: throw RuntimeException("User not exist")
         val password = generateRandomString(8)
         (user as? EmailUser)?.password = BCrypt.hashpw(password, BCrypt.gensalt()) ?: throw RuntimeException("This user is Social user")
-        TODO("Send email to user")
+        emailSender.send(
+            template = EmailTemplate.RESET_PASSWORD,
+            to = email,
+            model = mapOf(
+                "code" to password
+            )
+        )
     }
 }
