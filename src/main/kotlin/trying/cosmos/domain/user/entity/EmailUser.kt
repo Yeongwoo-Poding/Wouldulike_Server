@@ -11,9 +11,10 @@ class EmailUser(
 
     name: String,
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     val email: String,
 
+    @Column(nullable = false)
     var password: String
 
 ): User(name = name) {

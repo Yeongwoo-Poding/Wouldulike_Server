@@ -6,16 +6,20 @@ import javax.persistence.*
 @Entity
 class Certification(
 
+    @Column(nullable = false)
     var code: String,
 
+    @Column(nullable = false)
     val email: String,
 
+    @Column(nullable = false)
     private var expiredTime: Long,
 
+    @Column(nullable = false)
     var isCertified: Boolean = false,
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "certification_id")
+    @Column(name = "certification_id", nullable = false)
     val id: Long? = null
 
 ) {

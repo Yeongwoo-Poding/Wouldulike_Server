@@ -10,12 +10,14 @@ import javax.persistence.Id
 class Session(
 
     @Indexed
+    @Column(nullable = false)
     val userId: Long,
 
+    @Column(nullable = false)
     val authorityType: AuthorityType,
 
     @Id
-    @Column(name = "session_id")
+    @Column(name = "session_id", nullable = false)
     val id: String = UUID.randomUUID().toString()
 
 )
