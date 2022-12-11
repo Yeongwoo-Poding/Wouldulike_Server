@@ -12,7 +12,6 @@ import trying.cosmos.domain.user.dto.response.UserInfoResponse
 import trying.cosmos.domain.user.dto.response.UserListFindResponse
 import trying.cosmos.domain.user.dto.response.UserSettingResponse
 import trying.cosmos.domain.user.entity.AuthorityType.USER
-import trying.cosmos.domain.user.service.SessionService
 import trying.cosmos.domain.user.service.UserService
 import trying.cosmos.global.authentication.AuthorityLimit
 import trying.cosmos.global.authentication.CurrentUser
@@ -21,9 +20,7 @@ import trying.cosmos.global.authentication.CurrentUser
 @RequestMapping("/users")
 class UserController(
 
-    private val userService: UserService,
-
-    private val sessionService: SessionService
+    private val userService: UserService
 
 ) {
 
@@ -32,7 +29,7 @@ class UserController(
     fun logout(@PathVariable userId: Long) {
         val sessionId = CurrentUser.getSessionId() ?: throw RuntimeException("Not Authenticated")
         if (isCurrentUser(userId)) throw RuntimeException("No Permission")
-        sessionService.delete(sessionId)
+        userService.logout(sessionId)
     }
 
     @AuthorityLimit(USER)
