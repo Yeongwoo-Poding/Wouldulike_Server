@@ -1,5 +1,6 @@
 package trying.cosmos.domain.user.controller
 
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import trying.cosmos.domain.user.dto.*
 import trying.cosmos.domain.user.dto.request.EmailJoinRequest
@@ -21,7 +22,7 @@ class EmailAuthenticationController(
     fun isExist(@RequestParam email: String): UserExistResponse = authenticationService.isExist(email)
 
     @PostMapping
-    fun join(@RequestBody request: EmailJoinRequest): UserLoginResponse = authenticationService.join(
+    fun join(@Validated @RequestBody request: EmailJoinRequest): UserLoginResponse = authenticationService.join(
         request.name,
         request.email,
         request.password,
@@ -29,12 +30,12 @@ class EmailAuthenticationController(
     )
 
     @PostMapping("/login")
-    fun login(@RequestBody request: EmailLoginRequest): UserLoginResponse = authenticationService.login(
+    fun login(@Validated @RequestBody request: EmailLoginRequest): UserLoginResponse = authenticationService.login(
         request.email,
         request.password,
         request.pushToken
     )
 
     @PutMapping("/password")
-    fun resetPassword(@RequestBody request: ResetPasswordRequest) = authenticationService.resetPassword(request.email)
+    fun resetPassword(@Validated @RequestBody request: ResetPasswordRequest) = authenticationService.resetPassword(request.email)
 }

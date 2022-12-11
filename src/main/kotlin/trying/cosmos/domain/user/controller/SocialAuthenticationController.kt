@@ -1,5 +1,6 @@
 package trying.cosmos.domain.user.controller
 
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import trying.cosmos.domain.user.dto.request.SocialJoinRequest
 import trying.cosmos.domain.user.dto.request.SocialLoginRequest
@@ -16,7 +17,7 @@ class SocialAuthenticationController(
 ) {
 
     @PostMapping
-    fun join(@PathVariable type: String, @RequestBody request: SocialJoinRequest): UserLoginResponse = authenticationService.join(
+    fun join(@PathVariable type: String, @Validated @RequestBody request: SocialJoinRequest): UserLoginResponse = authenticationService.join(
         request.name,
         SocialType.valueOf(type.uppercase()),
         request.identifier,
@@ -24,7 +25,7 @@ class SocialAuthenticationController(
     )
 
     @PostMapping("/login")
-    fun login(@PathVariable type: String, @RequestBody request: SocialLoginRequest): UserLoginResponse = authenticationService.login(
+    fun login(@PathVariable type: String, @Validated @RequestBody request: SocialLoginRequest): UserLoginResponse = authenticationService.login(
         SocialType.valueOf(type.uppercase()),
         request.identifier,
         request.pushToken

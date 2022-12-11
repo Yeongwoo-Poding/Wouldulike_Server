@@ -1,12 +1,12 @@
 package trying.cosmos.domain.user.controller
 
 import org.springframework.data.domain.Pageable
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import trying.cosmos.domain.user.dto.*
-import trying.cosmos.domain.user.dto.request.UserNameRequest
-import trying.cosmos.domain.user.dto.request.UserPasswordRequest
 import trying.cosmos.domain.user.dto.request.UserSearchCondition
 import trying.cosmos.domain.user.dto.request.UserSettingRequest
+import trying.cosmos.domain.user.dto.request.UserUpdateRequest
 import trying.cosmos.domain.user.dto.response.UserFindResponse
 import trying.cosmos.domain.user.dto.response.UserInfoResponse
 import trying.cosmos.domain.user.dto.response.UserListFindResponse
@@ -50,17 +50,10 @@ class UserController(
     fun findMe(): UserInfoResponse = userService.findInfo(CurrentUser.getUserId() ?: throw RuntimeException("Not Authenticated"))
 
     @AuthorityLimit(USER)
-    @PutMapping("/{userId}/name")
-    fun updateName(@PathVariable userId: Long, @RequestBody request: UserNameRequest) {
+    @PatchMapping("/{userId}")
+    fun update(@PathVariable userId: Long, @Validated @RequestBody request: UserUpdateRequest) {
         if (!isCurrentUser(userId)) throw RuntimeException("No Permission")
-        userService.updateName(userId, request.name)
-    }
-
-    @AuthorityLimit(USER)
-    @PutMapping("/{userId}/password")
-    fun updatePassword(@PathVariable userId: Long, @RequestBody request: UserPasswordRequest) {
-        if (!isCurrentUser(userId)) throw RuntimeException("No Permission")
-        userService.updatePassword(userId, request.password)
+        userService.update(userId, request.name, request.password)
     }
 
     @AuthorityLimit(USER)
@@ -72,7 +65,7 @@ class UserController(
 
     @AuthorityLimit(USER)
     @PutMapping("/{userId}/setting")
-    fun updateSetting(@PathVariable userId: Long, @RequestBody request: UserSettingRequest) {
+    fun updateSetting(@PathVariable userId: Long, @Validated @RequestBody request: UserSettingRequest) {
         if (!isCurrentUser(userId)) throw RuntimeException("No Permission")
         userService.updateSetting(
             userId,
