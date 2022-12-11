@@ -62,7 +62,7 @@ class UserService(
     @Transactional
     fun updatePassword(userId: Long, password: String) {
         val user = userRepository.findByIdOrNull(userId) ?: throw RuntimeException("User not exist")
-        (user as? EmailUser)?.password = BCrypt.hashpw(password, BCrypt.gensalt()) ?: throw RuntimeException("This user is Social user")
+        (user as? EmailUser ?: throw RuntimeException("This user is Social user")).password = BCrypt.hashpw(password, BCrypt.gensalt())
     }
 
     fun findSetting(userId: Long): UserSettingResponse {
