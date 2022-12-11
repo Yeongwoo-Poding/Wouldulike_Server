@@ -1,5 +1,7 @@
 package trying.cosmos.domain.user.entity
 
+import org.hibernate.annotations.Cascade
+import org.hibernate.annotations.CascadeType
 import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.Where
 import trying.cosmos.domain.common.TimeEntity
@@ -18,6 +20,11 @@ abstract class User(
 
     @Enumerated(EnumType.STRING)
     val authority: AuthorityType = AuthorityType.USER,
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "setting_id")
+    @Cascade(CascadeType.ALL)
+    val setting: UserSetting = UserSetting(),
 
     var deletedAt: LocalDateTime? = null,
 

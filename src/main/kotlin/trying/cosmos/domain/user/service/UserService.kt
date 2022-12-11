@@ -67,11 +67,10 @@ class UserService(
 
     fun findSetting(userId: Long): UserSettingResponse {
         val user = userRepository.findByIdOrNull(userId) ?: throw RuntimeException("User not exist")
-        val setting = userRepository.findSetting(user) ?: throw RuntimeException("User not exist")
         return UserSettingResponse(
-            enableGlobalNotification = setting.enableGlobalNotification,
-            enableCourseNotification = setting.enableCourseNotification,
-            enableReviewNotification = setting.enableReviewNotification
+            enableGlobalNotification = user.setting.enableGlobalNotification,
+            enableCourseNotification = user.setting.enableCourseNotification,
+            enableReviewNotification = user.setting.enableReviewNotification
         )
     }
 
@@ -83,9 +82,8 @@ class UserService(
         enableReviewNotification: Boolean
     ) {
         val user = userRepository.findByIdOrNull(userId) ?: throw RuntimeException("User not exist")
-        val setting = userRepository.findSetting(user) ?: throw RuntimeException("User not exist")
-        setting.enableGlobalNotification = enableGlobalNotification
-        setting.enableCourseNotification = enableCourseNotification
-        setting.enableReviewNotification = enableReviewNotification
+        user.setting.enableGlobalNotification = enableGlobalNotification
+        user.setting.enableCourseNotification = enableCourseNotification
+        user.setting.enableReviewNotification = enableReviewNotification
     }
 }

@@ -5,10 +5,6 @@ import javax.persistence.*
 @Entity
 class UserSetting(
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    val user: User,
-
     var enableGlobalNotification: Boolean = false,
 
     var enableCourseNotification: Boolean = true,
