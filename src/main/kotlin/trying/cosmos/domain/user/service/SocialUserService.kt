@@ -9,7 +9,7 @@ import trying.cosmos.domain.user.repository.UserRepository
 
 @Service
 @Transactional(readOnly = true)
-class SocialAuthenticationService(
+class SocialUserService(
 
     private val userRepository: UserRepository,
 

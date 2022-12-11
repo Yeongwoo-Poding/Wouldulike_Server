@@ -14,7 +14,7 @@ import trying.cosmos.global.extension.generateRandomString
 
 @Service
 @Transactional(readOnly = true)
-class EmailAuthenticationService(
+class EmailUserService(
 
     private val userRepository: UserRepository,
 

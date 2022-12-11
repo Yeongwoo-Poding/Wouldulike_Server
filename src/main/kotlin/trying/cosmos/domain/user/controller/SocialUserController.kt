@@ -6,13 +6,13 @@ import trying.cosmos.domain.user.dto.request.SocialJoinRequest
 import trying.cosmos.domain.user.dto.request.SocialLoginRequest
 import trying.cosmos.domain.user.dto.response.UserLoginResponse
 import trying.cosmos.domain.user.entity.SocialType
-import trying.cosmos.domain.user.service.SocialAuthenticationService
+import trying.cosmos.domain.user.service.SocialUserService
 
 @RestController
 @RequestMapping("/auth/{type}")
-class SocialAuthenticationController(
+class SocialUserController(
 
-    private val authenticationService: SocialAuthenticationService
+    private val authenticationService: SocialUserService
 
 ) {
 

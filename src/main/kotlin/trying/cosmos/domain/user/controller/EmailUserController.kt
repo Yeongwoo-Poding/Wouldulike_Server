@@ -8,13 +8,13 @@ import trying.cosmos.domain.user.dto.request.EmailLoginRequest
 import trying.cosmos.domain.user.dto.request.ResetPasswordRequest
 import trying.cosmos.domain.user.dto.response.UserExistResponse
 import trying.cosmos.domain.user.dto.response.UserLoginResponse
-import trying.cosmos.domain.user.service.EmailAuthenticationService
+import trying.cosmos.domain.user.service.EmailUserService
 
 @RestController
 @RequestMapping("/auth/email")
-class EmailAuthenticationController(
+class EmailUserController(
 
-    private val authenticationService: EmailAuthenticationService
+    private val authenticationService: EmailUserService
 
 ) {
 
