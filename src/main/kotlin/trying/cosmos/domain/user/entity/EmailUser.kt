@@ -1,6 +1,5 @@
 package trying.cosmos.domain.user.entity
 
-import org.mindrot.jbcrypt.BCrypt
 import javax.persistence.Column
 import javax.persistence.DiscriminatorValue
 import javax.persistence.Entity
@@ -17,7 +16,4 @@ class EmailUser(
     @Column(nullable = false)
     var password: String
 
-): User(name = name) {
-
-    fun isMatch(password: String): Boolean = BCrypt.checkpw(password, this.password)
-}
+): User(name = name)

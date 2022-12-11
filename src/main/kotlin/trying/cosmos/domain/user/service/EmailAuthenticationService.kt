@@ -40,7 +40,7 @@ class EmailAuthenticationService(
     @Transactional
     fun login(email: String, password: String, pushToken: String): UserLoginResponse {
         val user = userRepository.findByEmail(email) ?: throw RuntimeException("User is not exist")
-        if (!user.isMatch(password)) throw RuntimeException("Wrong password")
+        if (!BCrypt.checkpw(password, user.password)) throw RuntimeException("Wrong password")
         return UserLoginResponse(user.id, sessionService.create(user))
     }
 
