@@ -19,7 +19,7 @@ class SessionService(
 ) {
 
     @Transactional
-    fun create(user: User): String = tokenProvider.createAccessToken(sessionRepository.save(Session(user.getNullSafeId(), user.authority)))
+    fun create(user: User): String = tokenProvider.createAccessToken(sessionRepository.save(Session(user.id, user.authority)))
 
     fun find(sessionId: String): Session? = sessionRepository.findByIdOrNull(sessionId)
 

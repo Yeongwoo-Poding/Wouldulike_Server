@@ -23,10 +23,11 @@ abstract class User(
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    val id: Long? = null
+    val _id: Long? = null
 
 ): TimeEntity() {
 
-    fun getNullSafeId(): Long = this.id ?: throw RuntimeException("User id is null")
+    val id: Long
+        get() = this._id ?: throw RuntimeException("User id is null")
 
 }

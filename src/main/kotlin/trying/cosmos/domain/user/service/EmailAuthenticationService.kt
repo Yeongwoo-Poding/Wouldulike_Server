@@ -33,7 +33,7 @@ class EmailAuthenticationService(
         val certification = certificationRepository.findByEmail(email) ?: throw RuntimeException("Certification is not exist")
         if (!certification.isCertified) throw RuntimeException("Certification is not certified")
         certificationRepository.delete(certification)
-        val user = userRepository.save(EmailUser(name, email, password))
+        val user = userRepository.save(EmailUser(name, email, BCrypt.hashpw(password, BCrypt.gensalt())))
         return UserLoginResponse(sessionService.create(user))
     }
 

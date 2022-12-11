@@ -35,18 +35,18 @@ class UserService(
 
     fun find(userId: Long): UserFindResponse {
         val user = userRepository.findByIdOrNull(userId) ?: throw RuntimeException("User not exist")
-        return UserFindResponse(user.getNullSafeId(), user.name)
+        return UserFindResponse(user.id, user.name)
     }
 
     fun findList(condition: UserSearchCondition, pageable: Pageable): UserListFindResponse {
         val userSlice = userRepository.findAllBy(condition, pageable)
-        return UserListFindResponse(userSlice.content.map { UserFindResponse(it.getNullSafeId(), it.name) }, userSlice.size, userSlice.hasNext())
+        return UserListFindResponse(userSlice.content.map { UserFindResponse(it.id, it.name) }, userSlice.size, userSlice.hasNext())
     }
 
     fun findInfo(userId: Long): UserInfoResponse {
         val user = userRepository.findByIdOrNull(userId) ?: throw RuntimeException("User not exist")
         return UserInfoResponse(
-            id = user.getNullSafeId(),
+            id = user.id,
             name = user.name,
             loginBy = (user as? SocialUser)?.socialType?.toString() ?: "EMAIL",
             email = (user as? EmailUser)?.email
