@@ -21,12 +21,12 @@ class SocialAuthenticationService(
     fun join(name: String, socialType: SocialType, identifier: String, pushToken: String): UserLoginResponse {
         if (userRepository.existsByIdentifier(identifier)) throw RuntimeException("Identifier already exist")
         val user = userRepository.save(SocialUser(name, socialType, identifier))
-        return UserLoginResponse(sessionService.create(user))
+        return UserLoginResponse(user.id, sessionService.create(user))
     }
 
     @Transactional
     fun login(socialType: SocialType, identifier: String, pushToken: String): UserLoginResponse {
         val user = userRepository.findByIdentifier(identifier) ?: throw RuntimeException("User not exist")
-        return UserLoginResponse(sessionService.create(user))
+        return UserLoginResponse(user.id, sessionService.create(user))
     }
 }

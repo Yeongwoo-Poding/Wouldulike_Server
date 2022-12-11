@@ -34,14 +34,14 @@ class EmailAuthenticationService(
         if (!certification.isCertified) throw RuntimeException("Certification is not certified")
         certificationRepository.delete(certification)
         val user = userRepository.save(EmailUser(name, email, BCrypt.hashpw(password, BCrypt.gensalt())))
-        return UserLoginResponse(sessionService.create(user))
+        return UserLoginResponse(user.id, sessionService.create(user))
     }
 
     @Transactional
     fun login(email: String, password: String, pushToken: String): UserLoginResponse {
         val user = userRepository.findByEmail(email) ?: throw RuntimeException("User is not exist")
         if (!user.isMatch(password)) throw RuntimeException("Wrong password")
-        return UserLoginResponse(sessionService.create(user))
+        return UserLoginResponse(user.id, sessionService.create(user))
     }
 
     @Transactional

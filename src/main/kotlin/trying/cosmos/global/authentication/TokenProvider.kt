@@ -23,12 +23,21 @@ class TokenProvider(
             .compact()
     }
 
-    fun getSubject(token: String): String? = parseClaims(token)?.subject
+    fun getSubject(token: String?): String? = parseClaims(token)?.subject
 
-    private fun parseClaims(token: String): Claims? {
+    private fun parseClaims(token: String?): Claims? {
         return Jwts.parserBuilder()
             .setSigningKey(key)
             .build()
             .parseClaimsJws(token).body
+    }
+
+    fun isValid(token: String?): Boolean {
+        return try {
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token)
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 }

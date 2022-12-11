@@ -28,14 +28,14 @@ class UserController(
     @DeleteMapping("/{userId}/logout")
     fun logout(@PathVariable userId: Long) {
         val sessionId = CurrentUser.getSessionId() ?: throw RuntimeException("Not Authenticated")
-        if (isCurrentUser(userId)) throw RuntimeException("No Permission")
+        if (!isCurrentUser(userId)) throw RuntimeException("No Permission")
         userService.logout(sessionId)
     }
 
     @AuthorityLimit(USER)
     @DeleteMapping("/{userId}")
     fun withdraw(@PathVariable userId: Long) {
-        if (isCurrentUser(userId)) throw RuntimeException("No Permission")
+        if (!isCurrentUser(userId)) throw RuntimeException("No Permission")
         userService.withdraw(userId)
     }
 
@@ -43,7 +43,7 @@ class UserController(
     fun find(@PathVariable userId: Long): UserFindResponse = userService.find(userId)
 
     @GetMapping
-    fun findAll(@RequestBody condition: UserSearchCondition, pageable: Pageable): UserListFindResponse = userService.findList(condition, pageable)
+    fun findAll(@ModelAttribute condition: UserSearchCondition, pageable: Pageable): UserListFindResponse = userService.findList(condition, pageable)
 
     @AuthorityLimit(USER)
     @GetMapping("/me")
@@ -52,28 +52,28 @@ class UserController(
     @AuthorityLimit(USER)
     @PutMapping("/{userId}/name")
     fun updateName(@PathVariable userId: Long, @RequestBody request: UserNameRequest) {
-        if (isCurrentUser(userId)) throw RuntimeException("No Permission")
+        if (!isCurrentUser(userId)) throw RuntimeException("No Permission")
         userService.updateName(userId, request.name)
     }
 
     @AuthorityLimit(USER)
     @PutMapping("/{userId}/password")
     fun updatePassword(@PathVariable userId: Long, @RequestBody request: UserPasswordRequest) {
-        if (isCurrentUser(userId)) throw RuntimeException("No Permission")
+        if (!isCurrentUser(userId)) throw RuntimeException("No Permission")
         userService.updatePassword(userId, request.password)
     }
 
     @AuthorityLimit(USER)
     @GetMapping("/{userId}/setting")
     fun getSetting(@PathVariable userId: Long): UserSettingResponse {
-        if (isCurrentUser(userId)) throw RuntimeException("No Permission")
+        if (!isCurrentUser(userId)) throw RuntimeException("No Permission")
         return userService.findSetting(userId)
     }
 
     @AuthorityLimit(USER)
     @PutMapping("/{userId}/setting")
     fun updateSetting(@PathVariable userId: Long, @RequestBody request: UserSettingRequest) {
-        if (isCurrentUser(userId)) throw RuntimeException("No Permission")
+        if (!isCurrentUser(userId)) throw RuntimeException("No Permission")
         userService.updateSetting(
             userId,
             request.enableGlobalNotification,

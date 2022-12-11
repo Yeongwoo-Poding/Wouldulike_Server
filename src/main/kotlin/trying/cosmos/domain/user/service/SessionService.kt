@@ -27,5 +27,7 @@ class SessionService(
     fun delete(sessionId: String) = sessionRepository.deleteById(sessionId)
 
     @Transactional
-    fun deleteByUserId(userId: Long) = sessionRepository.deleteAllByUserId(userId)
+    fun deleteByUserId(userId: Long) {
+        sessionRepository.findAllByUserId(userId).forEach { sessionRepository.delete(it) }
+    }
 }
