@@ -7,6 +7,7 @@ plugins {
 	kotlin("jvm") version "1.6.21"
 	kotlin("plugin.spring") version "1.6.21"
 	kotlin("plugin.jpa") version "1.6.21"
+	kotlin("kapt") version "1.7.10"
 }
 
 group = "trying"
@@ -45,6 +46,21 @@ dependencies {
 	// test
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+
+	// querydsl
+	implementation("com.querydsl:querydsl-jpa:5.0.0")
+	kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
+
+	// configuration properties
+	annotationProcessor ("org.springframework.boot:spring-boot-configuration-processor")
+
+	// jwt
+	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
+
+	// BCrypt
+	implementation(group = "de.svenkubiak", name = "jBCrypt", version = "0.4.1")
 }
 
 tasks.withType<KotlinCompile> {
